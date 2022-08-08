@@ -2,13 +2,12 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
 
-## Development server
+## Setup and run locally
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+`Step 1 :` Run git clone https://github.com/aks1011/Encora.git command.
+`Step 2 :` Run `npm i` to download the node_modules and dependent pakages.
+`Step 3 :` Run `ng serve`
+`Step 4 :` Navigate to `http://localhost:4200/` on your browser
 
 ## Build
 
