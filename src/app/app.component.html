@@ -6,8 +6,16 @@
 </nav>
 
 <!-- Contact list -->
-<div class="offset-4 col-4 mt-4">
+<div class="offset-lg-4 offset-md-2 col-lg-4 col-md-8 mt-4">
   <ul class="list-group">
+    <li
+      *ngIf="contacts.length === 0"
+      class="list-group-item d-flex justify-content-between align-items-start"
+    >
+      <div class="alert alert-danger d-grid gap-2 mx-auto" role="alert">
+        <strong>0 contacts.</strong>
+      </div>
+    </li>
     <li
       *ngFor="let item of contacts"
       class="list-group-item d-flex justify-content-between align-items-start"
@@ -45,13 +53,13 @@
     >
       <div class="d-grid gap-2 mx-auto">
         <button
-          class="btn btn-outline-primary"
+          class="btn btn-outline-info"
           data-bs-toggle="modal"
           data-bs-target="#addEditModal"
           type="button"
           (click)="add()"
         >
-          +
+          Add
         </button>
       </div>
     </li>

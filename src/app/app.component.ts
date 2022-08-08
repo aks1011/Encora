@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ContactService } from './contact.service';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +12,11 @@ export class AppComponent implements OnInit {
   isAdd = false;
   contactForm: FormGroup;
   contacts: any[] = [];
-  private URL =
-    'https://my-json-server.typicode.com/voramahavir/contacts-mock-response/contacts';
 
-  constructor(private _http: HttpClient) {}
+  constructor(private contactService: ContactService) {}
 
   ngOnInit(): void {
+    // form initialization
     this.contactForm = new FormGroup({
       firstName: new FormControl(''),
       lastName: new FormControl(''),
@@ -25,21 +24,28 @@ export class AppComponent implements OnInit {
       id: new FormControl(''),
     });
 
-    this._http.get(this.URL).subscribe((res) => {
-      this.contacts = res as any[];
-    });
+    // calling service method to fetch contacts
+    this.contactService.getContacts().subscribe(
+      (res) => {
+        this.contacts = res; // mapping response to local variable
+      },
+      (err) => {
+        console.error('Error in fetching contacts.');
+      }
+    );
   }
 
+  // local methods
   save(): void {
     if (this.isAdd) {
       this.contacts.push({
-        ...this.contactForm.value,
-        ...{ id: this.contacts[this.contacts.length - 1].id + 1 },
+        ...this.contactForm.value, // Form data
+        ...{ id: this.contacts[this.contacts.length - 1].id + 1 }, // appending id
       });
     } else {
       this.contacts.map((item) => {
         if (item.id === this.contactForm.value.id) {
-          Object.assign(item, this.contactForm.value);
+          Object.assign(item, this.contactForm.value); // overriding object with updated data before returing it
         }
       });
     }
@@ -50,10 +56,10 @@ export class AppComponent implements OnInit {
   }
   edit(item: any): void {
     this.isAdd = false;
-    this.contactForm.setValue(item);
+    this.contactForm.setValue(item); // for pre-popualating form data
   }
   delete(id: number): void {
-    const index = this.contacts.findIndex((item) => item.id === id);
-    this.contacts.splice(index, 1);
+    const index = this.contacts.findIndex((item) => item.id === id); // find index of the item for deletion
+    this.contacts.splice(index, 1); // removing it from the list with index
   }
 }
